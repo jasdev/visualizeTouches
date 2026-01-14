@@ -180,8 +180,9 @@ private struct TouchVisualizerGesture: UIGestureRecognizerRepresentable {
     }
 
     func handleUIGestureRecognizerAction(_ recognizer: Self.UIGestureRecognizerType, context: Self.Context) {
+        guard isEnabled else { return }
         switch recognizer.state {
-        case .began where isEnabled, .changed where isEnabled:
+        case .began, .changed:
             touches = (0 ..< recognizer.numberOfTouches).map { i in
                 let globalPoint = recognizer.location(ofTouch: i, in: nil)
                 let point = context.converter.convert(globalPoint: globalPoint)
